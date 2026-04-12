@@ -5,7 +5,7 @@ info:
   description: Демонстрационное REST API для получения списка созданных викингов
 
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8081
     description: Локальный сервер разработки
 
 paths:
@@ -26,6 +26,23 @@ paths:
                 items:
                   $ref: '#/components/schemas/Viking'
 
+  /api/vikings/test:
+    get:
+      tags:
+        - Vikings
+      summary: Получить список тестовых викингов
+      description: Получить список тестовых викингов
+      operationId: getTest
+      responses:
+        '200':
+          description: Список викингов успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: string
+                  
 components:
   schemas:
     Viking:

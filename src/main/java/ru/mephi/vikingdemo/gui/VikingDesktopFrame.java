@@ -1,6 +1,5 @@
 package ru.mephi.vikingdemo.gui;
 
-//import org.springframework.stereotype.Component;
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.service.VikingService;
 
@@ -14,7 +13,6 @@ import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import org.springframework.context.annotation.Lazy;
 
 
 public class VikingDesktopFrame extends JFrame {
@@ -31,7 +29,7 @@ public class VikingDesktopFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
-        JLabel header = new JLabel("REST API + Swagger + Spring Web Demo", SwingConstants.CENTER);
+        JLabel header = new JLabel("Viking Demo", SwingConstants.CENTER);
         header.setFont(header.getFont().deriveFont(Font.BOLD, 18f));
         add(header, BorderLayout.NORTH);
 

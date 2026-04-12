@@ -11,6 +11,7 @@ import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.service.VikingService;
 
 import java.util.List;
+import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/api/vikings")
@@ -24,11 +25,24 @@ public class VikingController {
     }
 
     @GetMapping
-    @Operation(summary = "Получить список созданных викингов")
+    @Operation(summary = "Получить список созданных викингов", 
+            operationId = "getAllVikings")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Список успешно получен")
     })
     public List<Viking> getAllVikings() {
+        System.out.println("GET /api/vikings called");
         return vikingService.findAll();
+    }
+
+    @GetMapping("/test")
+    @Operation(summary = "Получить список тестовых викингов", 
+            operationId = "getTest")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Список успешно получен")
+    })
+    public List<String> test() {
+        System.out.println("GET /api/vikings/test called");
+        return List.of("Ragnar", "Bjorn");
     }
 }

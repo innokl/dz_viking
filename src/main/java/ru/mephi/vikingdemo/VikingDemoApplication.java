@@ -14,7 +14,7 @@ public class VikingDemoApplication {
     public static void main(String[] args) {
         System.out.println(java.awt.GraphicsEnvironment.isHeadless());
         SpringApplication app = new SpringApplication(VikingDemoApplication.class);
-        app.setHeadless(false);
+        app.setHeadless(false); // Для доступа к GUI
 
         ConfigurableApplicationContext context = app.run(args);
 
