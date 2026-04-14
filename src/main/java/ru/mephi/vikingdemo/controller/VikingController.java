@@ -11,6 +11,7 @@ import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.service.VikingService;
 
 import java.util.List;
+import java.util.UUID;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
@@ -52,4 +53,17 @@ public class VikingController {
     public void addViking(){
         vikingListener.testAdd();
     }
+    @PostMapping
+public Viking create(@RequestBody Viking viking) {
+    return vikingService.addViking(viking);
+}
+    @DeleteMapping("/{id}")
+public void delete(@PathVariable UUID id) {
+    vikingService.deleteViking(id);
+}
+    @PutMapping("/{id}")
+public Viking update(@PathVariable UUID id,
+                     @RequestBody Viking viking) {
+    return vikingService.updateViking(id, viking);
+}
 }
