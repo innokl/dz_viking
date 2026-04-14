@@ -5,6 +5,7 @@ import ru.mephi.vikingdemo.model.Viking;
 
 import java.util.List;
 import java.util.*;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -54,5 +55,22 @@ public List<Viking> findAll() {
 
     storage.put(withId.id(), withId);
     return withId;
+}
+    public boolean deleteViking(UUID id) {
+    return storage.remove(id) != null;
+}
+    public Viking updateViking(UUID id, Viking viking) {
+    Viking updated = new Viking(
+            id,
+            viking.name(),
+            viking.age(),
+            viking.heightCm(),
+            viking.hairColor(),
+            viking.beardStyle(),
+            viking.equipment()
+    );
+
+    storage.put(id, updated);
+    return updated;
 }
 }
