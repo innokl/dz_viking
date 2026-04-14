@@ -8,6 +8,8 @@ import java.util.List;
 @Schema(description = "Модель викинга")
 public record Viking(
         @Schema(description = "Имя викинга", example = "Bjorn")
+        UUID id,
+        @Schema(description = "Имя викинга", example = "Bjorn")
         String name,
         @Schema(description = "Возраст", example = "31")
         int age,
