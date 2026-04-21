@@ -16,10 +16,9 @@ public class EquipmentFactory {
     
     public static EquipmentItem createItem() {
 
-        // Случайный тип предмета (равномерно)
         String name = EQUIPMENT_NAMES.get(RANDOM.nextInt(EQUIPMENT_NAMES.size()));
 
-        // Взвешенный выбор качества
+
         String quality = generateQuality();
 
         return new EquipmentItem(name, quality);
