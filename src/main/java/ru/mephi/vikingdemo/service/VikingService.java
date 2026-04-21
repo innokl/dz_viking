@@ -13,14 +13,14 @@ public class VikingService {
     private final Map<Integer, Viking> storage = new HashMap<>();
     private int nextId = 1;
 
-    // ✅ ДОЛЖНО БЫТЬ ВНУТРИ КЛАССА
+    
     private VikingListener vikingListener;
 
     public VikingService(VikingFactory vikingFactory) {
         this.vikingFactory = vikingFactory;
     }
 
-    // ✅ сеттер для связи с GUI
+  
     public void setVikingListener(VikingListener vikingListener) {
         this.vikingListener = vikingListener;
     }
@@ -42,7 +42,7 @@ public class VikingService {
 
         storage.put(withId.id(), withId);
 
-        // ✅ уведомляем GUI
+        
         if (vikingListener != null) {
             vikingListener.onVikingCreated(withId);
         }
@@ -65,7 +65,7 @@ public class VikingService {
 
         storage.put(withId.id(), withId);
 
-        // ✅ уведомляем GUI
+        
         if (vikingListener != null) {
             vikingListener.onVikingCreated(withId);
         }
