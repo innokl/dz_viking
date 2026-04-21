@@ -5,7 +5,7 @@ info:
   description: Демонстрационное REST API для получения списка созданных викингов
 
 servers:
-  - url: http://localhost:8081
+  - url: http://localhost:8080
     description: Локальный сервер разработки
 
 paths:
@@ -25,6 +25,55 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Viking'
+    post:
+      tags:
+        - Vikings
+      summary: Добавить нового викинга
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Viking'
+      responses:
+        '200':
+          description: Викинг добавлен
+
+  /api/vikings/{id}:
+    delete:
+      tags:
+        - Vikings
+      summary: Удалить викинга по id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Удалено
+
+
+    put:
+      tags:
+        - Vikings
+      summary: Обновить викинга
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Viking'
+      responses:
+        '200':
+          description: Обновлено
 
   /api/vikings/test:
     get:
@@ -55,6 +104,10 @@ components:
         - beardStyle
         - equipment
       properties:
+        id:
+          type: string
+          format: uuid
+          example: "1"
         name:
           type: string
           example: Ragnar

@@ -48,6 +48,24 @@ public class VikingTableModel extends AbstractTableModel {
             default -> "";
         };
     }
+    public void removeViking(int id) {
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).id() == id) {
+                data.remove(i);
+                fireTableRowsDeleted(i, i);
+                return;
+            }
+        }
+    }
+    public void updateViking(Viking viking) {
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).id() == viking.id()) {
+                data.set(i, viking);
+                fireTableRowsUpdated(i, i);
+                return;
+            }
+        }
+    }
 
     private String formatEquipment(List<EquipmentItem> equipment) {
         return equipment.stream()

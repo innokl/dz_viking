@@ -1,76 +1,105 @@
 package ru.mephi.vikingdemo.service;
 
 import org.springframework.stereotype.Service;
+import ru.mephi.vikingdemo.controller.VikingListener;
 import ru.mephi.vikingdemo.model.Viking;
 
-import java.util.List;
 import java.util.*;
-import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class VikingService {
-    // каждый раз при изменении создаётся новая копия списка 
-    private final CopyOnWriteArrayList<Viking> vikings = new CopyOnWriteArrayList<>();
+
     private final VikingFactory vikingFactory;
-    private final Map<UUID, Viking> storage = new HashMap<>();
-    @Autowired
+    private final Map<Integer, Viking> storage = new HashMap<>();
+    private int nextId = 1;
+
+    // ✅ ДОЛЖНО БЫТЬ ВНУТРИ КЛАССА
+    private VikingListener vikingListener;
+
     public VikingService(VikingFactory vikingFactory) {
         this.vikingFactory = vikingFactory;
     }
-    
-    public List<Viking> findAll() {
-        return List.copyOf(vikings);
+
+    // ✅ сеттер для связи с GUI
+    public void setVikingListener(VikingListener vikingListener) {
+        this.vikingListener = vikingListener;
     }
-public List<Viking> findAll() {
-    return new ArrayList<>(storage.values());
-}
+
+    public List<Viking> findAll() {
+        return new ArrayList<>(storage.values());
+    }
+
     public Viking addViking(Viking viking) {
-    Viking withId = new Viking(
-            UUID.randomUUID(),
-            viking.name(),
-            viking.age(),
-            viking.heightCm(),
-            viking.hairColor(),
-            viking.beardStyle(),
-            viking.equipment()
-    );
+        Viking withId = new Viking(
+                nextId++,
+                viking.name(),
+                viking.age(),
+                viking.heightCm(),
+                viking.hairColor(),
+                viking.beardStyle(),
+                viking.equipment()
+        );
 
-    storage.put(withId.id(), withId);
-    return withId;
-}
+        storage.put(withId.id(), withId);
+
+        // ✅ уведомляем GUI
+        if (vikingListener != null) {
+            vikingListener.onVikingCreated(withId);
+        }
+
+        return withId;
+    }
+
     public Viking createRandomViking() {
-    Viking v = factory.createRandomViking();
+        Viking v = vikingFactory.createRandomViking();
 
-    Viking withId = new Viking(
-            UUID.randomUUID(),
-            v.name(),
-            v.age(),
-            v.heightCm(),
-            v.hairColor(),
-            v.beardStyle(),
-            v.equipment()
-    );
+        Viking withId = new Viking(
+                nextId++,
+                v.name(),
+                v.age(),
+                v.heightCm(),
+                v.hairColor(),
+                v.beardStyle(),
+                v.equipment()
+        );
 
-    storage.put(withId.id(), withId);
-    return withId;
-}
-    public boolean deleteViking(UUID id) {
-    return storage.remove(id) != null;
-}
-    public Viking updateViking(UUID id, Viking viking) {
-    Viking updated = new Viking(
-            id,
-            viking.name(),
-            viking.age(),
-            viking.heightCm(),
-            viking.hairColor(),
-            viking.beardStyle(),
-            viking.equipment()
-    );
+        storage.put(withId.id(), withId);
 
-    storage.put(id, updated);
-    return updated;
-}
+        // ✅ уведомляем GUI
+        if (vikingListener != null) {
+            vikingListener.onVikingCreated(withId);
+        }
+
+        return withId;
+    }
+
+    public boolean deleteViking(int id) {
+        boolean removed = storage.remove(id) != null;
+
+        if (removed && vikingListener != null) {
+            vikingListener.onVikingDeleted(id);
+        }
+
+        return removed;
+    }
+
+    public Viking updateViking(int id, Viking viking) {
+        Viking updated = new Viking(
+                id,
+                viking.name(),
+                viking.age(),
+                viking.heightCm(),
+                viking.hairColor(),
+                viking.beardStyle(),
+                viking.equipment()
+        );
+
+        storage.put(id, updated);
+
+        if (vikingListener != null) {
+            vikingListener.onVikingUpdated(updated);
+        }
+
+        return updated;
+    }
 }
